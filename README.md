@@ -42,6 +42,79 @@ ProjectFintual/
 │ └── package.json
 │
 └── README.md
+## 🛠️ Tecnologías utilizadas
+
+### Backend
+- C# / .NET
+- ASP.NET Core Web API
+- HttpClient
+- Swagger (OpenAPI)
+
+### Frontend
+- Angular
+- TypeScript
+- Chart.js
+
+---
+
+## 📐 Decisiones técnicas (Backend)
+
+### 📌 Backend intermedio
+Se implementó una capa de servicio (`FintualServicio`) que:
+- Consume la API externa
+- Valida la existencia de `attributes.prices`
+- Lanza excepciones controladas si la estructura es inesperada
+
+```csharp
+if (!json.RootElement
+    .GetProperty("data")
+    .GetProperty("attributes")
+    .TryGetProperty("prices", out var prices))
+{
+    throw new Exception("Respuesta inesperada de la API: falta 'attributes.prices'.");
+}
+📌 Manejo de errores
+Uso de try-catch en servicios
+
+Validación explícita de respuestas HTTP
+
+Errores claros y controlados para el frontend
+
+Evita caídas silenciosas de la aplicación
+
+📌 Cálculo financiero en backend
+El backend calcula la variación mensual usando:
+Variacion (%) = PrecioFin - PrecioInicio/PrecioIncio *100
+
+Esto asegura:
+
+Consistencia en los cálculos
+
+Reutilización de lógica
+
+Menor carga en el frontend
+
+🖥️ Manejo de loading y errores (Frontend)
+Se manejan estados de carga durante el consumo de la API
+
+Se capturan errores HTTP (HttpErrorResponse)
+
+El usuario recibe feedback si la API no responde
+
+Ejemplo:
+
+this.fondosService.getVariaciones(...).subscribe({
+  next: data => this.variaciones = data,
+  error: err => console.error('ERROR API', err)
+});
+📊 Funcionalidades
+✔ Consulta de variación mensual
+✔ Cálculo de precios inicial y final por mes
+✔ Gráfico de líneas con Chart.js
+✔ Filtro por rango de fechas
+✔ Filtro por tipo de fondo
+✔ Manejo de errores backend y frontend
+
 
 ---
 ## 🚀 Cómo ejecutar el proyecto
