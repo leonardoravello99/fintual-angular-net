@@ -1,0 +1,52 @@
+<h2>Variacion Mensual del Fondo</h2>
+
+<label>Fondo:</label>
+<select [(ngModel)]="fondoSeleccionado">
+  <option *ngFor="let f of fondos" [value]="f.id">
+    {{ f.nombre }}
+  </option>
+</select>
+
+<!-- FILTROS -->
+<div style="margin-bottom: 20px;">
+  <label>Desde:</label>
+  <input type="date" [(ngModel)]="fechaInicio">
+
+  <label style="margin-left: 10px;">Hasta:</label>
+  <input type="date" [(ngModel)]="fechaFin">
+
+  <button (click)="filtrar()" style="margin-left: 10px;">
+    Filtrar
+  </button>
+</div>
+
+<!-- GRÁFICO -->
+<div style="width: 80%; margin: auto;">
+  <canvas id="graficoVariacion"></canvas>
+</div>
+
+<hr />
+
+
+
+<table border="1" [cellPadding]="6">
+    <thead>
+        <tr>
+            <th>Anio</th>
+            <th>Mes</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Variacion %</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let v of variaciones">
+            <td>{{v.anio}} </td>
+            <td>{{v.mes}} </td>
+            <td>{{v.variacionInicial | number: '1.2-2'}} </td>
+            <td>{{v.variacionFinals | number: '1.2-2'}} </td>
+            <td>{{v.variacionPorcentaje}}% </td>
+        </tr>
+    </tbody>
+</table>
+
